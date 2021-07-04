@@ -1,0 +1,43 @@
+body{
+    padding: 60px 30px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+nav{
+    background-color: rgba(52, 58, 64,0.4);
+}
+header div img{
+margin-right: 50px;
+}
+header div h1{
+    margin-top: 20px;
+    font-family: 'Trebuchet MS', sans-serif;
+    color:white;
+}
+.main-conent{
+display:grid;
+grid-template-areas: 
+"secList secImg"
+"secList secP"
+;
+}
+.sec-list{
+grid-area: secList;
+margin: 30px 10px;
+}
+.sec-img{
+margin: 30px 10px;
+grid-area: secImg;
+text-align: center;
+
+}
+.sec-img img{
+margin: 0 10px;
+outline:2px solid lightcoral;
+/* border: 10px solid; */
+}
+.sec-p{
+margin: 30px 10px;
+grid-area:secP;
+}

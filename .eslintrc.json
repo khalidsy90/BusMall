@@ -1,0 +1,42 @@
+{
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "ecmaFeatures": {
+        "impliedStrict": true
+      }
+    },
+    "env": {
+      "browser": true,
+      "es6": true
+    },
+    "rules": {
+      "no-var": "error",
+      "eqeqeq": ["error", "always"],
+      "no-console": "off",
+      "no-undefined": "off",
+      // "indent": ["error", "tab"],
+      "indent": "off",
+      // "quotes": [2, "backtick", "single"],
+      "quotes": [2, "backtick", "single","double"],
+      "no-multi-spaces": [
+        "warn",
+        {
+          "exceptions": {
+            "VariableDeclarator": true
+          }
+        }
+      ],
+      "no-trailing-spaces": "warn",
+      "new-cap": "warn",
+      "no-redeclare": [
+        "error",
+        {
+          "builtinGlobals": true
+        }
+      ],
+      "semi": [0]
+      // "semi": [2, "always"],
+      // "eol-last": "error"
+    }
+  }
