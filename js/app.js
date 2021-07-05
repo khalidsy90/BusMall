@@ -107,10 +107,12 @@ images.push(this)
                     lst.appendChild(liEl)
             }
             handleChart()
+            gotoBottom()
         }
     }
 
 function handleChart(){
+    
     let ctx = document.getElementById('myChart').getContext('2d');
     let myChart = new Chart(ctx, {
     type: 'bar',
@@ -145,4 +147,11 @@ function handleChart(){
             }
         }
     }
-})};
+})
+
+};
+
+function gotoBottom(){
+    let element = document.getElementById('myChart');
+    element.scrollIntoView()
+ }
