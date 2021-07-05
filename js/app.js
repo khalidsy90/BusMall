@@ -7,9 +7,13 @@ let imagesName=['bag.jpg','banana.jpg','bathroom.jpg','boots.jpg','breakfast.jpg
 
 let images=[]
 let attempts=0
+let namesItem=[]
+let votes=[]
+let seen=[]
 function BusMall(imageName)
 {
 this.imageName=imageName.split('.')[0];
+namesItem.push(this.imageName)
 this.img='css/assets/'+imageName;
 this.vote=0
 this.views=0
@@ -29,10 +33,33 @@ images.push(this)
      let midIndex=randomIndex()
      let rightIndex=randomIndex()
 
-    function generateRandomImg(){
-        leftIndex=randomIndex()
-        midIndex=randomIndex()
-        rightIndex=randomIndex()
+     
+    let arrIndex=new Array()
+    let newarr=[]
+
+    function generateRandomImg(){   
+      let currentIndexes=[leftIndex,midIndex,rightIndex]
+      if(newarr.length >0)
+      {
+      for (let i = 0; i < newarr.length; i++) 
+        {
+            for (let x = 0; x < currentIndexes.length; x++) {                
+                if(newarr[i] == currentIndexes[x])
+                {
+                    leftIndex=randomIndex()
+                    midIndex=randomIndex()
+                    rightIndex=randomIndex()
+                    generateRandomImg()                  
+                    i=newarr.length
+                    break
+                }
+            }
+        }
+        currentIndexes.length=0
+      }
+        arrIndex.push(leftIndex,midIndex,rightIndex)
+
+        newarr=arrIndex.slice(arrIndex.length-3,arrIndex.length)
 
         leftImEl.setAttribute('src',images[leftIndex].img)
         midImEl.setAttribute('src',images[midIndex].img)
@@ -48,6 +75,7 @@ images.push(this)
         images[leftIndex].views++
         images[midIndex].views++
         images[rightIndex].views++
+        
     }
 
     generateRandomImg()
@@ -69,14 +97,52 @@ images.push(this)
             generateRandomImg()
         }
         else{
-            if(lst.childElementCount == 19) return
+            if(lst.childElementCount == images.length) return
             for (let i = 0; i < images.length; i++) {
                     let liEl=document.createElement('li')
                     liEl.setAttribute('class','list-group-item')
                     liEl.textContent = `Picture : ${images[i].imageName} has ${images[i].vote} votes,${images[i].views} views`
+                    votes.push(images[i].vote)
+                    seen.push(images[i].views)
                     lst.appendChild(liEl)
             }
+            handleChart()
         }
-       
-        
     }
+
+function handleChart(){
+    let ctx = document.getElementById('myChart').getContext('2d');
+    let myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels:namesItem,
+        datasets: [{
+            label: 'Votes',
+            data: votes,
+            backgroundColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+            ],
+            borderWidth: 1
+        },{
+            label: 'Views',
+            data: seen,
+            backgroundColor: [
+                'rgba(75, 192, 192, 1)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+})};
