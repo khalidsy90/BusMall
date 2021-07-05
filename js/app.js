@@ -54,6 +54,7 @@ images.push(this)
 
     function handlevevnt(event){
         attempts++
+        let lst=document.getElementById('info')
         if(attempts <= imagesName.length){
             let cuurentItem=event.target.id;
             if(cuurentItem == 'leftImag'){
@@ -68,13 +69,10 @@ images.push(this)
             generateRandomImg()
         }
         else{
-            let lst=document.getElementById('info')
+            if(lst.childElementCount == 19) return
             for (let i = 0; i < images.length; i++) {
                     let liEl=document.createElement('li')
                     liEl.setAttribute('class','list-group-item')
-                    if(i%2==0){
-                        liEl.setAttribute('background-color','black') 
-                    }
                     liEl.textContent = `Picture : ${images[i].imageName} has ${images[i].vote} votes,${images[i].views} views`
                     lst.appendChild(liEl)
             }
