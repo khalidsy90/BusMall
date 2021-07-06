@@ -37,6 +37,8 @@ images.push(this)
     let arrIndex=new Array()
     let newarr=[]
 
+    generateRandomImg()
+
     function generateRandomImg(){   
       let currentIndexes=[leftIndex,midIndex,rightIndex]
       if(newarr.length >0)
@@ -45,25 +47,24 @@ images.push(this)
         {
             for (let x = 0; x < currentIndexes.length; x++) {                
                 if(newarr[i] == currentIndexes[x])
-                {
+                { 
                     leftIndex=randomIndex()
                     midIndex=randomIndex()
-                    rightIndex=randomIndex()
-                    generateRandomImg()                  
-                    i=newarr.length
-                    break
+                    rightIndex=randomIndex()                    
+                    generateRandomImg()
+                    break                  
                 }
-            }
+            }                           
         }
         currentIndexes.length=0
-      }
-        arrIndex.push(leftIndex,midIndex,rightIndex)
+        }
 
+        arrIndex.push(leftIndex,midIndex,rightIndex)
         newarr=arrIndex.slice(arrIndex.length-3,arrIndex.length)
 
         leftImEl.setAttribute('src',images[leftIndex].img)
         midImEl.setAttribute('src',images[midIndex].img)
-        rightImEl.setAttribute('src',images[rightIndex].img)
+        rightImEl.setAttribute('src',images[rightIndex].img) 
 
         while (leftIndex == midIndex || leftIndex == rightIndex || midIndex==rightIndex || midIndex == leftIndex ) 
         {
@@ -71,28 +72,35 @@ images.push(this)
             midIndex=randomIndex()
             rightIndex=randomIndex()
             generateRandomImg()
+        }       
+    }
+
+    images[leftIndex].views++
+    images[midIndex].views++
+    images[rightIndex].views++
+
+    function handlevevnt(event){
+        attempts++
+        if(attempts ==1){
+            images[leftIndex].views--
+            images[midIndex].views--
+            images[rightIndex].views--
         }
         images[leftIndex].views++
         images[midIndex].views++
         images[rightIndex].views++
-        
-    }
-
-    generateRandomImg()
-
-    function handlevevnt(event){
-        attempts++
         let lst=document.getElementById('info')
         if(attempts <= imagesName.length){
             let cuurentItem=event.target.id;
+
             if(cuurentItem == 'leftImag'){
-                images[leftIndex].vote++
+                images[leftIndex].vote++                             
             }
             else if(cuurentItem == 'midImage'){
-                images[midIndex].vote++
+                images[midIndex].vote++                
             }
             else if(cuurentItem == 'rightImage'){
-                images[rightIndex].vote++
+                images[rightIndex].vote++                
             }
             generateRandomImg()
         }
@@ -155,3 +163,4 @@ function gotoBottom(){
     let element = document.getElementById('myChart');
     element.scrollIntoView()
  }
+
