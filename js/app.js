@@ -4,12 +4,16 @@ let midImEl=document.getElementById('midImage')
 let rightImEl=document.getElementById('rightImage')
 
 let imagesName=['bag.jpg','banana.jpg','bathroom.jpg','boots.jpg','breakfast.jpg','bubblegum.jpg','chair.jpg','cthulhu.jpg','dog-duck.jpg','dragon.jpg','pen.jpg','pet-sweep.jpg','scissors.jpg','shark.jpg','sweep.png','tauntaun.jpg','unicorn.jpg','water-can.jpg','wine-glass.jpg']
+let lst=document.getElementById('info')
 
 let images=[]
 let attempts=0
 let namesItem=[]
 let votes=[]
 let seen=[]
+
+// readData()
+BusMall.LocStore=[]
 function BusMall(imageName)
 {
 this.imageName=imageName.split('.')[0];
@@ -18,6 +22,8 @@ this.img='css/assets/'+imageName;
 this.vote=0
 this.views=0
 images.push(this)
+BusMall.LocStore.push(this)
+
 }
 
     for (let i = 0; i < imagesName.length; i++) 
@@ -89,7 +95,7 @@ images.push(this)
         images[leftIndex].views++
         images[midIndex].views++
         images[rightIndex].views++
-        let lst=document.getElementById('info')
+      
         if(attempts <= imagesName.length){
             let cuurentItem=event.target.id;
 
@@ -105,18 +111,9 @@ images.push(this)
             generateRandomImg()
         }
         else{
-            if(lst.childElementCount == images.length) return
-            for (let i = 0; i < images.length; i++) {
-                    let liEl=document.createElement('li')
-                    liEl.setAttribute('class','list-group-item')
-                    liEl.textContent = `Picture : ${images[i].imageName} has ${images[i].vote} votes,${images[i].views} views`
-                    votes.push(images[i].vote)
-                    seen.push(images[i].views)
-                    lst.appendChild(liEl)
-            }
-            handleChart()
-            gotoBottom()
+            renderSurvey()
         }
+        
     }
 
 function handleChart(){
@@ -159,8 +156,40 @@ function handleChart(){
 
 };
 
+function renderSurvey(){
+    if(lst.childElementCount == images.length) return
+    for (let i = 0; i < images.length; i++) {
+            let liEl=document.createElement('li')
+            liEl.setAttribute('class','list-group-item')
+            liEl.textContent = `Picture : ${images[i].imageName} has ${images[i].vote} votes,${images[i].views} views`
+            votes.push(images[i].vote)
+            seen.push(images[i].views)
+            lst.appendChild(liEl)
+    }
+    handleChart()
+    storeData()
+    gotoBottom()
+}
 function gotoBottom(){
     let element = document.getElementById('myChart');
     element.scrollIntoView()
  }
 
+ function storeData(){
+     localStorage.setItem('data',JSON.stringify(BusMall.LocStore))
+ }
+ function readData(){
+     let data=JSON.parse(localStorage.getItem('data'))
+     let newData=data
+    if(data !== null){
+       for (let i = 0; i < images.length; i++) {
+        BusMall.LocStore[i].vote =newData[i].vote
+        BusMall.LocStore[i].views = newData[i].views   
+       }
+    }
+ }
+
+ readData()
+
+ console.log(images);
+ console.log(BusMall.LocStore);
